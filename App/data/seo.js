@@ -1,5 +1,5 @@
 const data = {
-    seo : function(type){
+    seo : function(type , data){
         switch(type){
             case 'home':
                 return {
@@ -15,6 +15,11 @@ const data = {
             return  {     
                     title: "this is blog listing page",    
                     pageDescription : "This is description of project listing"
+                }
+            case 'blogDetail' : 
+                return {
+                    title: data && data.title,    
+                    pageDescription : data && data.pageDescription
                 }
         }
     }

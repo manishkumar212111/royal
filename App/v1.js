@@ -11,4 +11,8 @@ router.get('/blogs/add' , testWare , pageController.addBlog);
 router.get('/project/list' , testWare , pageController.projectList);
 router.get('/blog/list' , testWare , pageController.blogList);
 
+router.get('/blog/detail' , testWare , pageController.blogDetail);
+router.get('/project/detail' , testWare , pageController.projectDetail);
+
+
 module.exports = router ;

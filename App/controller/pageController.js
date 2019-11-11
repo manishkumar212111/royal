@@ -12,10 +12,10 @@ var pageController = {
                 seo : seoData.seo('home'),
                 blogs : await modelController.fetchFromDb('blogs' , ['*'] , 4) 
             }    
-            return commonHelper.sendResponseData(req , res , data , "Fetched Project list")
+            return commonHelper.sendResponseData(req , res , data , "Fetched Project list" ,false, 200)
         } catch(error){
             console.log(error);
-            return commonHelper.sendResponseData(req , res , {} , "Error at backend" , true)
+            return commonHelper.sendResponseData(req , res , {} , "Error at backend" , true , 500)
         }
     },
     addProject : async function(req , res){
@@ -35,7 +35,7 @@ var pageController = {
         }
 
         const insertId = await modelController.insertIntoDb('projects',obj);
-        return commonHelper.sendResponseData(req , res , {insertId : insertId } , "Inserted successfully")
+        return commonHelper.sendResponseData(req , res , {insertId : insertId } , "Inserted successfully" , false,200)
     },
     addBlog : async function(req , res){
         const obj = {
@@ -61,7 +61,7 @@ var pageController = {
                 seo : seoData.seo('projectListing'),
                 pagination : await commonHelper.getPaginationObject('projects' , 4 ,currentPage)
             }
-                return commonHelper.sendResponseData(req , res , data , "fetched successfully");
+                return commonHelper.sendResponseData(req , res , data , "fetched successfully" ,false,200);
             } catch(error){
                 console.log(error);
                 return commonHelper.sendResponseData(req , res , {} , "Error at backend" , true)
@@ -78,13 +78,58 @@ var pageController = {
                 seo : seoData.seo('blogListing'),
                 pagination : await commonHelper.getPaginationObject('blogs' , 4 ,currentPage)
             }
-                return commonHelper.sendResponseData(req , res , data , "fetched successfully");
+                return commonHelper.sendResponseData(req , res , data , "fetched successfully" ,false,200);
             } catch(error){
                 console.log(error);
-                return commonHelper.sendResponseData(req , res , {} , "Error at backend" , true)
+                return commonHelper.sendResponseData(req , res , {} , "Error at backend" , true ,500)
         }
-    }
-    
+    },
+    blogDetail: async function(req , res){
+        try{
+            const validationResult = commonHelper.validateArray(req.query , ['id']);    
+            if(!validationResult.status){
+                return commonHelper.sendResponseData(req , res , {} , validationResult.message , true ,500)
+            }
+            let condition = {
+                id : parseInt(req.query.id)
+            }
+            let description = await modelController.findInDb(condition, 'blogs' ,['*']);
+            if(!description[0]){
+                return commonHelper.sendResponseData(req , res , {redirect : "/blogs/list"} , "Error at backend" , true, 302)
+            }
+            let data = {
+                description : description[0],
+                seo : seoData.seo('blogDetail' , {title : description[0].title , pageDescription : description[0].short_description}),                
+            }
+            return commonHelper.sendResponseData(req , res , data , "fetched successfully" ,false,200);
+            } catch(error){
+                console.log(error);
+                return commonHelper.sendResponseData(req , res , {} , "Error at backend" , true , 500)
+        }
+    },
+    projectDetail: async function(req , res){
+        try{
+            const validationResult = commonHelper.validateArray(req.query , ['id']);    
+            if(!validationResult.status){
+                return commonHelper.sendResponseData(req , res , {} , validationResult.message , true ,500)
+            }
+            let condition = {
+                id : parseInt(req.query.id)
+            }
+            let description = await modelController.findInDb(condition, 'projects' ,['*']);
+            if(!description[0]){
+                return commonHelper.sendResponseData(req , res , {redirect : "/projects/list"} , "Error at backend" , true, 302)
+            }
+            let data = {
+                description : description[0],
+                seo : seoData.seo('blogDetail' , {title : description[0].title , pageDescription : description[0].short_description}),                
+            }
+            return commonHelper.sendResponseData(req , res , data , "fetched successfully" ,false,200);
+            } catch(error){
+                console.log(error);
+                return commonHelper.sendResponseData(req , res , {} , "Error at backend" , true , 500)
+        }
+    },
 }
 
 module.exports = pageController;
