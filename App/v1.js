@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const pageController = require('./controller/pageController')
+const widgetController = require('./controller/widgetController')
+
 const testWare = (req, res, next) => {
     next();
 } 
@@ -14,5 +16,5 @@ router.get('/blog/list' , testWare , pageController.blogList);
 router.get('/blog/detail' , testWare , pageController.blogDetail);
 router.get('/project/detail' , testWare , pageController.projectDetail);
 
-
+router.post('/leads' , testWare , widgetController.leadSubmit);
 module.exports = router ;
