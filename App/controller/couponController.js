@@ -96,12 +96,12 @@ const couponController = {
 
         // let result = await modelController.insertIntoDb( 'daily_count' , data );
         const data = {
-            code : "TESTING1",
+            code : "TESTING1uhgkh",
             status : "yes",
             date : "2019-11-27",
 
         }
-        let result = await modelController.insertIntoDb( 'paypal_ontrade' , data );
+        let result = await modelController.insertIntoDb( 'paypal_offtrade' , data );
 
 
         res.send({data});
