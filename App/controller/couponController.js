@@ -10,6 +10,10 @@ const couponController = {
         }
         let mobile = req.query.mobile;
         let coupon = req.query.coupon;
+        if(!(coupon.indexOf(COUPON_VALIDATE[0]) != -1 || coupon.indexOf(COUPON_VALIDATE[1]) != -1)){
+            res.send({error : true , message: "Invalid coupon code"});
+        }
+        coupon = coupon.split(' ')[2];
         // validate mobile
         if(!commonHelper.validate_mobile(mobile)){
             res.json({error : true , message : "Mobile number is not valid"});

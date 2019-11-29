@@ -7,4 +7,4 @@ global.LIMIT_START_DATE = '2019-11-01';
 global.LIMIT_END_DATE = '2019-11-30';
 global.DAILY_LIMIT = 10;
 global.MONTHLY_LIMIT = 50;
-
+global.COUPON_VALIDATE = ['ROYAL STAG ','Royal stag '];
