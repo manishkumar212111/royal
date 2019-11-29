@@ -1,7 +1,7 @@
-global.HOST_DB     = 'localhost';
-global.USER_DB     = 'root';
-global.PASSWORD_DB = 'root';
-global.DATABASE_DB = 'redeem';
+global.HOST_DB     = '43.255.154.41';
+global.USER_DB     = 'j4qm4fs3seq9';
+global.PASSWORD_DB = 'Datakrop@2019';
+global.DATABASE_DB = 'rsrules';
 
 global.LIMIT_START_DATE = '2019-11-01';
 global.LIMIT_END_DATE = '2019-11-30';
