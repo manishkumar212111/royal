@@ -1,5 +1,5 @@
 global.HOST_DB     = '43.255.154.41';
-global.USER_DB     = 'j4qm4fs3seq9';
+global.USER_DB     = 'datakrop';
 global.PASSWORD_DB = 'Datakrop@2019';
 global.DATABASE_DB = 'rsrules';
 
