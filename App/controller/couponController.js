@@ -11,7 +11,8 @@ const couponController = {
         let mobile = req.query.mobile;
         let coupon = req.query.coupon;
         if(!(coupon.indexOf(COUPON_VALIDATE[0]) != -1 || coupon.indexOf(COUPON_VALIDATE[1]) != -1)){
-            res.send({error : true , message: "Invalid coupon code"});
+            commonHelper.sendMessage(mobile , "Message format is incorrect, Kindly try with proper message format");
+            res.send({error : true , message: "Message format is incorrect, Kindly try with proper message format"});
         }
         coupon = coupon.split(' ')[2];
         // validate mobile
@@ -29,6 +30,7 @@ const couponController = {
             // validate if mobile number already redeemed for max
             let mobileCountStatus = await commonHelper.checkMaxRedeemed(mobile); 
             if(!mobileCountStatus.status){
+                commonHelper.sendMessage(mobile , mobileCountStatus.message);                            
                 res.json({error : true , message : mobileCountStatus.message });
                 return;
             }
@@ -38,11 +40,15 @@ const couponController = {
             if(smsInSN){
                 // now fetch code from paypal system from same SN
                 let finalCodeObject = await commonHelper.getFinalCode(smsInSN , "paypal_ontrade" , mobile , coupon);
-                if(finalCodeObject && finalCodeObject.code)
-                    res.json({ error : false , code : finalCodeObject.code })     
-                else
+                if(finalCodeObject && finalCodeObject.code){   
+                    let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+message+" of Rs 10. Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
+                    commonHelper.sendMessage(mobile , message);                            
+                    res.json({ error : false , code : finalCodeObject.code , message : message })
+                }     
+                else {
                     res.json({error : true , code : "No coupon code available" })     
                     return;
+                }
             }
 
         } else {
@@ -50,6 +56,7 @@ const couponController = {
             // validate if mobile number already redeemed for max
             let mobileCountStatus = await commonHelper.checkMaxRedeemed(mobile); 
             if(!mobileCountStatus.status){
+                commonHelper.sendMessage(mobile , mobileCountStatus.message);                                            
                 res.json({error : true , message : mobileCountStatus.message });
                 return;
             }
@@ -59,11 +66,15 @@ const couponController = {
             if(smsInSN){
                 // now fetch code from paypal system from same SN
                 let finalCodeObject = await commonHelper.getFinalCode(smsInSN , "paypal_offtrade" , mobile , coupon);
-                if(finalCodeObject && finalCodeObject.code)
-                    res.json({ error : false , code : finalCodeObject.code })     
-                else
+                if(finalCodeObject && finalCodeObject.code){
+                    let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+message+" of Rs 10. Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
+                    commonHelper.sendMessage(mobile , message);                            
+                    res.json({ error : false , code : finalCodeObject.code })                         
+                }
+                else {
                     res.json({error : true , code : "No coupon code available" })     
                     return;
+                }
             }
         }
 

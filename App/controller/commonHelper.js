@@ -1,5 +1,6 @@
 const modelController = require('./modelController');
 var moment = require('moment');
+const axios = require('axios')
 
 const commonHelper = {
     validate_mobile : (mobile) => {
@@ -38,7 +39,7 @@ const commonHelper = {
         }
         
         if(count_daily >= DAILY_LIMIT){
-            return ({status : false , message : "Your dailt limit crossed"})
+            return ({status : false , message : "Your daily limit crossed"})
         }
         if(count_monthly >= MONTHLY_LIMIT){
             return ({status : false , message : "Your monthly limit crossed"})
@@ -73,6 +74,10 @@ const commonHelper = {
         }
 
         return false;
+    },
+    sendMessage : async (mobile , message) => {
+        let url= "http://www.smsjust.com/sms/user/urlsms.php?username=pernod&pass=pernod@2019&senderid=RSMEGA&dest_mobileno="+mobile+"&message="+message+"&response=Y";
+        return await axios.get(url);
     }
 
 }

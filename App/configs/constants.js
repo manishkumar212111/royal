@@ -5,6 +5,6 @@ global.DATABASE_DB = 'heroku_bf9f8e6eec477f1';
 
 global.LIMIT_START_DATE = '2019-11-01';
 global.LIMIT_END_DATE = '2019-11-30';
-global.DAILY_LIMIT = 10;
-global.MONTHLY_LIMIT = 50;
+global.DAILY_LIMIT = 2;
+global.MONTHLY_LIMIT = 15;
 global.COUPON_VALIDATE = ['ROYAL STAG ','Royal stag '];
