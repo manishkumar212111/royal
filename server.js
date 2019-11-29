@@ -23,4 +23,7 @@ app.use(function(req, res, next) {
 });
 app.use('/api/v1', apiV1);
 
+app.get('/' , (req , res)=> {
+  res.send("hello world ");
+})
 app.listen(port, () => console.log(`Pintaki app listening on port ${port}!`))

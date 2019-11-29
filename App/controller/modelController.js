@@ -82,7 +82,29 @@ const modelController = {
                 reject(e);
             }
         });
-    }, 
+    },
+    updateTable : function(updateObject, tableName, id, whereColumnName = 'id'){
+        return new Promise( async function(resolve, reject) {
+          try{
+             let query = `UPDATE ${tableName} SET `;
+             let valueArray = [];
+             let columnValue = [];
+             for (var key in updateObject) {
+              if (updateObject.hasOwnProperty(key)) {
+                columnValue.push('`'+key+'` = ? ');
+                valueArray.push(updateObject[key]);
+              }
+             }
+            query += columnValue.join(", ")+` where ${whereColumnName} = ? `;
+            valueArray.push(id);
+            let result = await executeQuery(query,valueArray); 
+            resolve(result.changedRows || 0);
+          }catch(e){
+            reject(e);
+          }
+        });
+    }
+    
 }
 
 module.exports = modelController;
