@@ -62,7 +62,7 @@ const commonHelper = {
         if(result.length > 0){
             await modelController.updateTable({status : "no"} , tableName , SN , 'sr');
             await modelController.updateTable({redeemed : "yes"} , 'coupon' , coupon , 'Code');
-            await modelController.insertIntoDb( 'daily_count' , {mobile : mobile , date: moment().format('YYYY-MM-DD HH-MM-SS')} );
+            await modelController.insertIntoDb( 'daily_count' , {mobile : mobile} );
             await modelController.insertIntoDb( 'redeem' , {
                 mobile : mobile ,
                 date: moment().format('YYYY-MM-DD HH-MM-SS'),
