@@ -5,27 +5,24 @@ var moment = require('moment');
 const couponController = {
     check : async (req , res) => {
         if(!req.query.coupon && !req.query.mobile){
-            res.send({error : true , message: "coupon code and mobile both required"});
-            return;
+            return res.send({error : true , message: "coupon code and mobile both required"});
         }
         let mobile = req.query.mobile;
         let coupon = req.query.coupon;
         if(!(coupon.indexOf(COUPON_VALIDATE[0]) != -1 || coupon.indexOf(COUPON_VALIDATE[1]) != -1)){
             await commonHelper.sendMessage(mobile , "Message format is incorrect, Kindly try with proper message format");
-            res.send({error : true , message: "Message format is incorrect, Kindly try with proper message format"});
+            return res.send({error : true , message: "Message format is incorrect, Kindly try with proper message format"});
         }
         coupon = coupon.split(' ')[2];
         // validate mobile
         if(!commonHelper.validate_mobile(mobile)){
-            res.json({error : true , message : "Mobile number is not valid"});
-            return;
+            return res.json({error : true , message : "Mobile number is not valid"});
         }
         // validate coupon
         let couponValidateObj = await commonHelper.validate_coupon(coupon);
         if(!couponValidateObj.status){
             await commonHelper.sendMessage(mobile , couponValidateObj.message);                                        
-            res.json({ error : true , message : couponValidateObj.message});
-            return;
+            return res.json({ error : true , message : couponValidateObj.message});
         }
         let offOnTrackFlag = coupon[8];
         if(offOnTrackFlag == '1'){
@@ -33,8 +30,7 @@ const couponController = {
             let mobileCountStatus = await commonHelper.checkMaxRedeemed(mobile); 
             if(!mobileCountStatus.status){
                 await commonHelper.sendMessage(mobile , mobileCountStatus.message);                            
-                res.json({error : true , message : mobileCountStatus.message });
-                return;
+                return res.json({error : true , message : mobileCountStatus.message });
             }
 
             // Now populate ontrade smsin table anf get SN
@@ -45,11 +41,10 @@ const couponController = {
                 if(finalCodeObject && finalCodeObject.code){   
                     let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+finalCodeObject.code+" of Rs 10. Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
                     await commonHelper.sendMessage(mobile , message);                            
-                    res.json({ error : false , code : finalCodeObject.code , message : message })
+                    return res.json({ error : false , code : finalCodeObject.code , message : message })
                 }     
                 else {
-                    res.json({error : true , code : "No coupon code available" })     
-                    return;
+                    return res.json({error : true , code : "No coupon code available" })     
                 }
             }
 
@@ -59,8 +54,8 @@ const couponController = {
             let mobileCountStatus = await commonHelper.checkMaxRedeemed(mobile); 
             if(!mobileCountStatus.status){
                 await commonHelper.sendMessage(mobile , mobileCountStatus.message);                                            
-                res.json({error : true , message : mobileCountStatus.message });
-                return;
+                return res.json({error : true , message : mobileCountStatus.message });
+                
             }
 
             // Now populate ontrade smsin table anf get SN
@@ -71,16 +66,15 @@ const couponController = {
                 if(finalCodeObject && finalCodeObject.code){
                     let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+finalCodeObject.code+" of Rs 10. Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
                     await commonHelper.sendMessage(mobile , message);                            
-                    res.json({ error : false , code : finalCodeObject.code })                         
+                    return res.json({ error : false , code : finalCodeObject.code })                         
                 }
                 else {
-                    res.json({error : true , code : "No coupon code available" })     
-                    return;
+                    return res.json({error : true , code : "No coupon code available" })     
                 }
             }
         }
 
-        res.json({error : false , coupon : "Something went wrong"});
+        return res.json({error : false , coupon : "Something went wrong"});
     },
 
     addCoupon : async function(req , res){
