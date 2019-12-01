@@ -20,6 +20,7 @@ const couponController = {
         coupon = coupon.split(' ')[2];
         // validate mobile
         if(!commonHelper.validate_mobile(mobile)){
+            await commonHelper.sendMessage(mobile , "Mobile number is not valid");
             return res.json({error : true , message : "Mobile number is not valid"});
         }
         // validate coupon
