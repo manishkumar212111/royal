@@ -77,11 +77,11 @@ const commonHelper = {
     },
     sendMessage : async (mobile , message) => {
         let url= "http://www.smsjust.com/sms/user/urlsms.php?username=pernod&pass=pernod@2019&senderid=RSMEGA&dest_mobileno="+mobile+"&message="+message+"&response=Y";
-        let message_id = await axios.get(url);
-        if(message_id){
+        let message_obj = await axios.get(url);
+        if(message_obj){
             let data = {
                 mobile : mobile,
-                msg_id : message_id
+                msg_id : message_obj.data
             }
             await modelController.insertIntoDb( 'message_detail' , data );
         }
