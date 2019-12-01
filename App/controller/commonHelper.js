@@ -77,7 +77,8 @@ const commonHelper = {
     },
     sendMessage : async (mobile , message) => {
         let url= "http://www.smsjust.com/sms/user/urlsms.php?username=pernod&pass=pernod@2019&senderid=RSMEGA&dest_mobileno="+mobile+"&message="+message+"&response=Y";
-        return await axios.get(url);
+        await axios.get(url);
+        return;
     }
 
 }
