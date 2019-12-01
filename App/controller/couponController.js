@@ -46,7 +46,7 @@ const couponController = {
                 // now fetch code from paypal system from same SN
                 let finalCodeObject = await commonHelper.getFinalCode(smsInSN , "paypal_ontrade" , mobile , coupon);
                 if(finalCodeObject && finalCodeObject.code){   
-                    let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+finalCodeObject.code+" of Rs 10. Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
+                    let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+finalCodeObject.code+" of Rs "+finalCodeObject.value+". Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
                     await commonHelper.sendMessage(mobile , message);                            
                     return res.json({ error : false , code : finalCodeObject.code , message : message })
                 }     
@@ -71,7 +71,7 @@ const couponController = {
                 // now fetch code from paypal system from same SN
                 let finalCodeObject = await commonHelper.getFinalCode(smsInSN , "paypal_offtrade" , mobile , coupon);
                 if(finalCodeObject && finalCodeObject.code){
-                    let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+finalCodeObject.code+" of Rs 10. Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
+                    let message = "Sucessfull submission - Thank you for participating, your Paytm coupon code is "+finalCodeObject.code+" of Rs "+finalCodeObject.value+". Use Paytm app to redeem your code. For terms and condition go to http://royalstagraj.in/";
                     await commonHelper.sendMessage(mobile , message);                            
                     return res.json({ error : false , code : finalCodeObject.code })                         
                 }
