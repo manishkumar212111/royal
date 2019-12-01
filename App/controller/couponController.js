@@ -17,7 +17,7 @@ const couponController = {
             await commonHelper.sendMessage(mobile , "Message format is incorrect, Kindly try with proper message format");
             return res.send({error : true , message: "Message format is incorrect, Kindly try with proper message format"});
         }
-        coupon = coupon.split('+')[2];
+        coupon = coupon.split(' ')[2];
         // validate mobile
         if(!commonHelper.validate_mobile(mobile)){
             return res.json({error : true , message : "Mobile number is not valid"});
