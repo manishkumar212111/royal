@@ -9,6 +9,10 @@ const couponController = {
         }
         let mobile = req.query.mobile;
         let coupon = req.query.coupon;
+        console.log(coupon , mobile);
+        console.log(coupon.indexOf(COUPON_VALIDATE[0]) , COUPON_VALIDATE[0]);
+        console.log(coupon.indexOf(COUPON_VALIDATE[1]) , COUPON_VALIDATE[1]);
+        
         if(!(coupon.indexOf(COUPON_VALIDATE[0]) != -1 || coupon.indexOf(COUPON_VALIDATE[1]) != -1)){
             await commonHelper.sendMessage(mobile , "Message format is incorrect, Kindly try with proper message format");
             return res.send({error : true , message: "Message format is incorrect, Kindly try with proper message format"});
