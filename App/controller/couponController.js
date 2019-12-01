@@ -32,7 +32,7 @@ const couponController = {
             return res.json({ error : true , message : couponValidateObj.message});
         }
         let offOnTrackFlag = coupon[8];
-        if(offOnTrackFlag == '1'){
+        if(offOnTrackFlag == '0'){
             // validate if mobile number already redeemed for max
             let mobileCountStatus = await commonHelper.checkMaxRedeemed(mobile); 
             if(!mobileCountStatus.status){
