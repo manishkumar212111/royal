@@ -7,9 +7,11 @@ const couponController = {
         if(!req.query.coupon && !req.query.mobile){
             return res.send({error : true , message: "coupon code and mobile both required"});
         }
-        let mobile = req.query.mobile;
-        let coupon = req.query.coupon;
-        console.log(coupon , mobile);
+        let mobile = req.query.mobile.split("'");
+        mobile = mobile[1] && mobile[1];
+        let coupon = req.query.coupon.split("'");
+        coupon = coupon && coupon[1];
+        console.log(coupon , mobile );
         console.log(coupon.indexOf(COUPON_VALIDATE[0]) , COUPON_VALIDATE[0]);
         console.log(coupon.indexOf(COUPON_VALIDATE[1]) , COUPON_VALIDATE[1]);
         
